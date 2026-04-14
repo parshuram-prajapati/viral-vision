@@ -8,6 +8,10 @@ export interface CreatorContext {
   targetAudience: string;
   emotion: string;
   platform: string;
+  contentIdea: string;
+  struggles: string;
+  competitors: string;
+  uniqueValue: string;
 }
 
 export interface AnalysisResult {
@@ -102,7 +106,17 @@ export interface BeginnerRoadmap {
 
 export async function analyzeCompetitor(data: CompetitorData, context: CreatorContext): Promise<CompetitorAnalysis> {
   const prompt = `
-    You are a world-class Viral Growth Engineer. Analyze this competitor's video to find the "secret sauce".
+    You are a world-class Viral Growth Teacher and Algorithm Coach. 
+    Your mission is to help this creator CRACK THE ALGORITHM and become UNSTOPPABLE.
+    
+    CREATOR IDENTITY:
+    - Niche: ${context.niche}
+    - Target Audience: ${context.targetAudience}
+    - Primary Goal: ${context.goal}
+    - Content Idea: ${context.contentIdea}
+    - Current Struggles: ${context.struggles}
+    - Competitors: ${context.competitors}
+    - Unique Value Proposition: ${context.uniqueValue}
     
     COMPETITOR VIDEO DATA:
     - Title: ${data.title}
@@ -111,11 +125,8 @@ export async function analyzeCompetitor(data: CompetitorData, context: CreatorCo
     - Description: ${data.description}
     - Tags: ${data.tags.join(", ")}
     
-    MY CONTEXT:
-    - Niche: ${context.niche}
-    - Target Audience: ${context.targetAudience}
-    
     Provide a deep technical analysis of why this video worked and how I can replicate its success without copying it.
+    Teach me the underlying algorithm principles used here.
   `;
 
   const response = await ai.models.generateContent({
@@ -143,16 +154,20 @@ export async function analyzeCompetitor(data: CompetitorData, context: CreatorCo
 
 export async function generateBeginnerRoadmap(context: CreatorContext): Promise<BeginnerRoadmap> {
   const prompt = `
-    You are a mentor for a beginner content creator who is starting from ABSOLUTE ZERO.
-    They know nothing about editing, cameras, or algorithms.
+    You are a world-class Viral Growth Teacher and Algorithm Coach. 
+    Your mission is to help this creator CRACK THE ALGORITHM and become UNSTOPPABLE.
     
-    CREATOR CONTEXT:
+    CREATOR IDENTITY:
     - Niche: ${context.niche}
     - Target Audience: ${context.targetAudience}
-    - Goal: ${context.goal}
+    - Primary Goal: ${context.goal}
+    - Content Idea: ${context.contentIdea}
+    - Current Struggles: ${context.struggles}
+    - Competitors: ${context.competitors}
+    - Unique Value Proposition: ${context.uniqueValue}
     
     Create a step-by-step roadmap for their first 90 days. 
-    Be encouraging but realistic. Focus on "Mindset First".
+    Be encouraging but realistic. Focus on "Mindset First" and "Algorithm Mastery".
   `;
 
   const response = await ai.models.generateContent({
@@ -191,13 +206,17 @@ export async function generateBeginnerRoadmap(context: CreatorContext): Promise<
 
 export async function analyzeInstagramMetrics(insights: InstagramInsights, context: CreatorContext): Promise<InstagramAnalysis> {
   const prompt = `
-    You are an expert Instagram Growth Strategist and Data Analyst.
-    Analyze the following Instagram insights for a creator.
+    You are a world-class Viral Growth Teacher and Algorithm Coach. 
+    Your mission is to help this creator CRACK THE ALGORITHM and become UNSTOPPABLE.
     
-    CREATOR CONTEXT:
+    CREATOR IDENTITY:
     - Niche: ${context.niche}
     - Target Audience: ${context.targetAudience}
-    - Goal: ${context.goal}
+    - Primary Goal: ${context.goal}
+    - Content Idea: ${context.contentIdea}
+    - Current Struggles: ${context.struggles}
+    - Competitors: ${context.competitors}
+    - Unique Value Proposition: ${context.uniqueValue}
     
     INSTAGRAM INSIGHTS:
     - Average Retention: ${insights.retention}%
@@ -207,7 +226,7 @@ export async function analyzeInstagramMetrics(insights: InstagramInsights, conte
     - Engagement Rate: ${insights.engagementRate}%
     
     Provide a data-driven analysis with specific improvements.
-    Be brutally honest about why people are skipping or dropping off.
+    Teach me how to manipulate these numbers to force the algorithm to push my content.
   `;
 
   const response = await ai.models.generateContent({
@@ -235,13 +254,17 @@ export async function analyzeInstagramMetrics(insights: InstagramInsights, conte
 
 export async function analyzeContent(context: CreatorContext, content: string): Promise<AnalysisResult> {
   const prompt = `
-    You are an expert YouTube content strategist, video editor, storytelling coach, and viral growth analyst.
-    Analyze the following creator's content based on their context.
+    You are a world-class Viral Growth Teacher and Algorithm Coach. 
+    Your mission is to help this creator CRACK THE ALGORITHM and become UNSTOPPABLE.
     
-    CREATOR CONTEXT:
-    - Goal: ${context.goal}
+    CREATOR IDENTITY:
     - Niche: ${context.niche}
     - Target Audience: ${context.targetAudience}
+    - Primary Goal: ${context.goal}
+    - Content Idea: ${context.contentIdea}
+    - Current Struggles: ${context.struggles}
+    - Competitors: ${context.competitors}
+    - Unique Value Proposition: ${context.uniqueValue}
     - Emotion: ${context.emotion}
     - Platform: ${context.platform}
     
@@ -249,7 +272,7 @@ export async function analyzeContent(context: CreatorContext, content: string): 
     ${content}
     
     Provide a brutally honest, high-value analysis. Do not be polite for the sake of it.
-    Explain WHY something is weak and give better alternatives.
+    Teach me the "Algorithm Secrets" that will make this content go viral.
   `;
 
   const response = await ai.models.generateContent({

@@ -30,7 +30,8 @@ import {
   Compass,
   Flag,
   Trophy,
-  ExternalLink
+  ExternalLink,
+  User
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -56,7 +57,7 @@ import {
   BeginnerRoadmap
 } from "./services/geminiService";
 
-type Step = "welcome" | "context" | "dashboard" | "loading" | "results" | "scriptGen" | "videoLab" | "competitor" | "roadmap";
+type Step = "welcome" | "context" | "dashboard" | "loading" | "results" | "scriptGen" | "videoLab" | "competitor" | "roadmap" | "profile";
 
 export default function App() {
   const [step, setStep] = useState<Step>("welcome");
@@ -68,6 +69,10 @@ export default function App() {
     targetAudience: "",
     emotion: "",
     platform: "Instagram",
+    contentIdea: "",
+    struggles: "",
+    competitors: "",
+    uniqueValue: "",
   });
   const [insights, setInsights] = useState<InstagramInsights | null>(null);
   const [analysis, setAnalysis] = useState<InstagramAnalysis | null>(null);
@@ -225,6 +230,7 @@ export default function App() {
           </div>
           
           <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-white/90">
+            <span className="hover:text-white cursor-pointer transition-colors" onClick={() => setStep("profile")}>Profile</span>
             <span className="hover:text-white cursor-pointer transition-colors" onClick={() => setStep("results")}>Insights</span>
             <span className="hover:text-white cursor-pointer transition-colors" onClick={() => setStep("videoLab")}>Video Lab</span>
             <span className="hover:text-white cursor-pointer transition-colors" onClick={() => setStep("competitor")}>Competitor</span>
@@ -272,12 +278,11 @@ export default function App() {
                   </Badge>
                 </motion.div>
                 <h1 className="font-display text-7xl md:text-9xl font-extrabold leading-[0.9] tracking-tighter">
-                  Master the <br />
+                  Crack the <br />
                   <span className="gradient-text">Algorithm.</span>
                 </h1>
                 <p className="text-xl text-white/80 max-w-2xl mx-auto font-medium leading-relaxed">
-                  Connect your Instagram to get deep AI insights on retention, skip rates, and watch time. 
-                  Turn data into viral content with our AI storytelling coach.
+                  Your personal AI Teacher & Algorithm Coach. Connect your social accounts to define your identity and become unstoppable in your niche.
                 </p>
               </div>
 
@@ -319,6 +324,147 @@ export default function App() {
             </motion.div>
           )}
 
+          {step === "profile" && (
+            <motion.div
+              key="profile"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="max-w-4xl mx-auto space-y-12"
+            >
+              <div className="text-center space-y-4">
+                <h2 className="font-display text-6xl font-bold tracking-tight">Creator <span className="text-pink-500">Identity</span></h2>
+                <p className="text-white/70">Define your vision. Crack the algorithm. Become unstoppable.</p>
+              </div>
+
+              <div className="glass-card p-8 flex flex-col md:flex-row items-center justify-between gap-6 border-pink-500/20">
+                <div className="flex items-center gap-6">
+                  <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center text-3xl font-bold shadow-lg shadow-pink-500/20">
+                    {context.niche ? context.niche[0].toUpperCase() : "C"}
+                  </div>
+                  <div className="text-left">
+                    <h3 className="text-3xl font-bold">{context.niche || "New Creator"}</h3>
+                    <p className="text-white/50 font-mono text-sm">ID: VV-STRATEGIST-{Math.floor(1000 + Math.random() * 9000)}</p>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-2">
+                  <Badge className="bg-green-500/20 text-green-400 border-green-500/20 px-4 py-1.5 text-xs font-bold uppercase tracking-wider">
+                    Identity Verified
+                  </Badge>
+                  <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Algorithm Access: Level 4</p>
+                </div>
+              </div>
+
+              <div className="glass-card p-10 space-y-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                    <Label className="text-white/90 font-semibold ml-1">Your Niche</Label>
+                    <Input 
+                      placeholder="e.g. AI SaaS, Minimalist Lifestyle" 
+                      className="bg-white/5 border-white/10 h-14 rounded-2xl"
+                      value={context.niche}
+                      onChange={e => setContext({...context, niche: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-3">
+                    <Label className="text-white/90 font-semibold ml-1">Target Audience</Label>
+                    <Input 
+                      placeholder="e.g. Solo-founders, Gen Z students" 
+                      className="bg-white/5 border-white/10 h-14 rounded-2xl"
+                      value={context.targetAudience}
+                      onChange={e => setContext({...context, targetAudience: e.target.value})}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <Label className="text-white/90 font-semibold ml-1">Primary Goal</Label>
+                  <Input 
+                    placeholder="e.g. Reach 10k followers, Drive newsletter signups" 
+                    className="bg-white/5 border-white/10 h-14 rounded-2xl"
+                    value={context.goal}
+                    onChange={e => setContext({...context, goal: e.target.value})}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                    <Label className="text-white/90 font-semibold ml-1">Current Struggles</Label>
+                    <Textarea 
+                      placeholder="What's stopping you from going viral?" 
+                      className="bg-white/5 border-white/10 min-h-[120px] rounded-2xl"
+                      value={context.struggles}
+                      onChange={e => setContext({...context, struggles: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-3">
+                    <Label className="text-white/90 font-semibold ml-1">Unique Value Proposition</Label>
+                    <Textarea 
+                      placeholder="What makes you different from everyone else?" 
+                      className="bg-white/5 border-white/10 min-h-[120px] rounded-2xl"
+                      value={context.uniqueValue}
+                      onChange={e => setContext({...context, uniqueValue: e.target.value})}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                    <Label className="text-white/90 font-semibold ml-1">Content Pillars / Ideas</Label>
+                    <Textarea 
+                      placeholder="What topics do you want to be known for?" 
+                      className="bg-white/5 border-white/10 min-h-[120px] rounded-2xl"
+                      value={context.contentIdea}
+                      onChange={e => setContext({...context, contentIdea: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-3">
+                    <Label className="text-white/90 font-semibold ml-1">Inspiration / Competitors</Label>
+                    <Textarea 
+                      placeholder="Who are you looking up to?" 
+                      className="bg-white/5 border-white/10 min-h-[120px] rounded-2xl"
+                      value={context.competitors}
+                      onChange={e => setContext({...context, competitors: e.target.value})}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-4 pt-4">
+                  <Button 
+                    onClick={() => setStep("welcome")}
+                    variant="outline"
+                    className="flex-1 h-14 rounded-2xl font-bold border-white/10 hover:bg-white/5"
+                  >
+                    Back
+                  </Button>
+                  <Button 
+                    onClick={() => setStep("results")}
+                    className="flex-[2] bg-gradient-to-r from-purple-600 to-pink-500 h-14 rounded-2xl text-lg font-bold shadow-xl shadow-pink-500/20"
+                  >
+                    Save & View Insights <Sparkles className="ml-2 w-5 h-5" />
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="glass-card p-6 border-blue-500/20 bg-blue-500/5">
+                  <Brain className="w-8 h-8 text-blue-400 mb-4" />
+                  <h4 className="font-bold mb-2">Algorithm Mastery</h4>
+                  <p className="text-xs text-white/60 leading-relaxed">Your profile helps us teach you how to manipulate retention and engagement to force the algorithm to push your content.</p>
+                </div>
+                <div className="glass-card p-6 border-pink-500/20 bg-pink-500/5">
+                  <Target className="w-8 h-8 text-pink-400 mb-4" />
+                  <h4 className="font-bold mb-2">Laser Focus</h4>
+                  <p className="text-xs text-white/60 leading-relaxed">By defining your unique value, we can suggest content that actually resonates with your specific target audience.</p>
+                </div>
+                <div className="glass-card p-6 border-yellow-500/20 bg-yellow-500/5">
+                  <Rocket className="w-8 h-8 text-yellow-400 mb-4" />
+                  <h4 className="font-bold mb-2">Unstoppable Growth</h4>
+                  <p className="text-xs text-white/60 leading-relaxed">Once you crack the code of your niche, your growth will be exponential. We are here to be your teacher.</p>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
           {step === "context" && (
             <motion.div
               key="context"
@@ -355,17 +501,26 @@ export default function App() {
                   </div>
                 </div>
                 <div className="space-y-3">
-                  <Label className="text-white/70 font-semibold ml-1">Primary Goal</Label>
+                  <Label className="text-white/90 font-semibold ml-1">Primary Goal</Label>
                   <Input 
-                    placeholder="e.g. Brand awareness, Sales, Community" 
+                    placeholder="e.g. Reach 10k followers, Drive sales" 
                     className="bg-white/5 border-white/10 h-14 rounded-2xl focus:ring-pink-500/50"
                     value={context.goal}
                     onChange={e => setContext({...context, goal: e.target.value})}
                     required
                   />
                 </div>
+                <div className="space-y-3">
+                  <Label className="text-white/90 font-semibold ml-1">What's your biggest struggle right now?</Label>
+                  <Textarea 
+                    placeholder="e.g. Low retention, lack of ideas, editing takes too long" 
+                    className="bg-white/5 border-white/10 min-h-[100px] rounded-2xl focus:ring-pink-500/50"
+                    value={context.struggles}
+                    onChange={e => setContext({...context, struggles: e.target.value})}
+                  />
+                </div>
                 <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-pink-500 h-16 rounded-2xl text-lg font-bold shadow-xl shadow-pink-500/20">
-                  Analyze My Account <Sparkles className="ml-2 w-5 h-5" />
+                  Create My Identity <Sparkles className="ml-2 w-5 h-5" />
                 </Button>
               </form>
             </motion.div>
@@ -406,8 +561,8 @@ export default function App() {
                   <p className="text-white/70 font-medium">Data-driven strategy for your {context.niche} brand.</p>
                 </div>
                 <div className="flex gap-4">
-                  <Button variant="outline" className="glass-button" onClick={() => setStep("context")}>
-                    Edit Context
+                  <Button variant="outline" className="glass-button" onClick={() => setStep("profile")}>
+                    Edit Profile
                   </Button>
                   <Button className="bg-white text-black hover:bg-white/90 rounded-full px-8" onClick={() => setStep("scriptGen")}>
                     Generate Next Script
@@ -424,6 +579,30 @@ export default function App() {
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-8">
+                  <div className="glass-card p-8 border-yellow-500/20 bg-yellow-500/5 space-y-6">
+                    <h3 className="text-2xl font-bold flex items-center gap-3">
+                      <Trophy className="text-yellow-400" /> Coach's Corner
+                    </h3>
+                    <div className="space-y-4">
+                      <p className="text-white/90 font-medium italic">"To become unstoppable, you must stop making content for everyone and start making it for the algorithm's ideal viewer."</p>
+                      <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+                        <h4 className="font-bold text-yellow-400 mb-2">Algorithm Secret for {context.niche}</h4>
+                        <p className="text-sm text-white/80 leading-relaxed">
+                          {context.uniqueValue 
+                            ? `Your unique value ("${context.uniqueValue.substring(0, 60)}...") is your weapon. The algorithm rewards consistency in this specific area.` 
+                            : "Define your unique value in your profile to unlock specific algorithm secrets tailored to your brand."}
+                        </p>
+                      </div>
+                      <Button 
+                        variant="link" 
+                        className="text-yellow-400 p-0 h-auto font-bold hover:text-yellow-300"
+                        onClick={() => setStep("roadmap")}
+                      >
+                        View My Growth Roadmap <ChevronRight className="w-4 h-4 ml-1" />
+                      </Button>
+                    </div>
+                  </div>
+
                   <div className="glass-card p-8 space-y-6">
                     <h3 className="text-2xl font-bold flex items-center gap-3">
                       <Brain className="text-pink-500" /> AI Strategic Insights
